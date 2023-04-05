@@ -63,8 +63,8 @@ Pre-trained models can be downloaded from [google drive](https://drive.google.co
 * *i3d_pretrained_400.pt*: model for evaluting videos' FVD and KVD, Manually download to  ```~/.cache/mmdiffusion/``` if the automatic download procedure fails. 
 * *AudioCLIP-Full-Training.pt*: model for evaluting audios; FAD, Manually download to  ```~/.cache/mmdiffusion/``` if the automatic download procedure fails.
 
-The output results(sampled with full ddpm) on Landscape, AIST++ can be downloaded from [google drive](), and [baidu cloud]()().
-
+<!-- The output results(sampled with full ddpm) on Landscape, AIST++ can be downloaded from [google drive](), and [baidu cloud]()().
+ -->
 
 ## Datasets
 1. Landscape
