@@ -59,6 +59,7 @@ Pre-trained models can be downloaded from [google drive](https://drive.google.co
 * *Landscape_SR.pt*: trained on landscape dataset to upsample frame from reolution 64x64 to 256x256.
 * *AIST++.pt*: trained on AIST++ dataset to generate audio-video pairs.
 * *AIST++_SR.pt*: trained on AIST++ dataset to upsample frame from reolution 64x64 to 256x256.
+* *guided-diffusion_64_256_upsampler.pt*: from [guided-diffusion](https://github.com/openai/guided-diffusion), used as initialization of image SR model. 
 
 * *i3d_pretrained_400.pt*: model for evaluting videos' FVD and KVD, Manually download to  ```~/.cache/mmdiffusion/``` if the automatic download procedure fails. 
 * *AudioCLIP-Full-Training.pt*: model for evaluting audios; FAD, Manually download to  ```~/.cache/mmdiffusion/``` if the automatic download procedure fails.

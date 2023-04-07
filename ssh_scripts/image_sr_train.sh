@@ -6,11 +6,11 @@ MODEL_FLAGS="--sr_attention_resolutions 8,16,32  --large_size 256
 
 DIFFUSION_FLAGS="--sr_diffusion_steps 1000 --noise_schedule linear" # --use_kl True
 
-TRAIN_FLAGS="--lr 1e-4 --batch_size 2 --devices 5,6,7 --log_interval 100 --sample_fn ddpm 
+TRAIN_FLAGS="--lr 1e-4 --batch_size 6 --devices 0,1,2,3,4,5,6,7 --log_interval 1000 --sample_fn ddpm 
  --save_interval 10000 --num_workers 8 --frame_gap 1 
- --use_db False --resume_checkpoint /data6/rld/guided-diffusion/models/image_sr/landscape_64-256_np50_nr0-20_cp50_cr20-8_ema140000.pt" #--schedule_sampler loss-second-moment --resume_checkpoint models/256x256_diffusion_uncond.pt
+ --use_db False --resume_checkpoint /data10/rld/outputs/MM-Diffusion/models/guided-diffusion_64_256_upsampler.pt" #--schedule_sampler loss-second-moment --resume_checkpoint models/256x256_diffusion_uncond.pt
 
-NUM_GPUS=3
+NUM_GPUS=8
 DATA_DIR="/data6/rld/data/landscape_png/train/explosion"
 OUT_DIR="/data6/rld/outputs/MM-Diffusion/sr-image-train/debug"
 
