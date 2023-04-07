@@ -11,8 +11,7 @@ MODEL_FLAGS="--cross_attention_resolutions 2,4,8 --cross_attention_windows 1,4,8
 
 # Modify --devices to your own GPU ID
 TRAIN_FLAGS="--lr 0.0001 --batch_size 4 
---devices 0 --log_interval 1 --save_interval 1 --use_db False 
---resume_checkpoint /home/v-zixituo/rld/outputs/MultimodalDiffusion/models/multimodal-train/landscape_linear1000_16x64x64_shiftT_window148_lr1e-4_ema_100000.pt" #--schedule_sampler loss-second-moment
+--devices 0 --log_interval 1 --save_interval 1 --use_db False " #--schedule_sampler loss-second-moment
 DIFFUSION_FLAGS="--noise_schedule linear --diffusion_steps 1000 --save_type mp4 --sample_fn dpm_solver++" 
 
 # Modify the following pathes to your own paths
