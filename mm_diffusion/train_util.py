@@ -12,12 +12,11 @@ from moviepy.audio.AudioClip import AudioArrayClip
 import numpy as np
 from torch.nn.parallel.distributed import DistributedDataParallel as DDP
 from torch.optim import AdamW
-from einops import rearrange, repeat
 from . import dist_util, logger
 from .fp16_util import MixedPrecisionTrainer
 from .nn import update_ema
 from .resample import LossAwareSampler, UniformSampler
-from .dpm_solver_plus import DPM_Solver
+from .dpm_solver_plus import DPM_Solver as singlemodal_DPM_Solver
 from .common import save_one_image, save_one_video, save_png, save_video
 
 # For ImageNet experiments, this was a good default value.
@@ -428,21 +427,15 @@ class TrainLoop:
                
                 # sample_fn = dpm_solver_sample
                 # sample_dict.update({'model_fn': self.model, 'total_N': len(self.diffusion.betas)})
-
-                dpm_solver = DPM_Solver(model= self.model, \
+            
+                dpm_solver = singlemodal_DPM_Solver(model= self.model, \
                     alphas_cumprod=th.tensor(self.diffusion.alphas_cumprod, dtype=th.float16), \
                         predict_x0=False, model_kwargs=model_kwargs)
                 noise = th.randn([self.batch_size, *self.model.video_size]).to(dist_util.dev())
                 
                 sample_fn = dpm_solver.sample
                 sample_dict = {"noise":noise, "steps":50, "order":2, "skip_type":"time_uniform", "method":"multistep"}
-                # sr_sample = dpm_solver.sample(
-                #         noise,
-                #         steps=50,
-                #         order=2,
-                #         skip_type="time_uniform",
-                #         method="multistep",
-                #     )
+
                 
             else:
                 sample_fn = (
@@ -514,8 +507,24 @@ class TrainLoop:
             sample_dict = {'shape':shape,  'model_kwargs':model_kwargs}
       
             if self.sample_fn == 'dpm_solver':
-                sample_fn = dpm_solver_sample
-                sample_dict.update({'model_fn': self.model})
+                
+
+                dpm_solver = singlemodal_DPM_Solver(model= self.model, \
+                    alphas_cumprod=th.tensor(self.diffusion.alphas_cumprod, dtype=th.float16), \
+                        predict_x0=False, model_kwargs=model_kwargs)
+                noise = th.randn([*shape]).to(dist_util.dev())
+                
+                sample_fn = dpm_solver.sample
+                sample_dict = {"noise":noise, "steps":50, "order":2, "skip_type":"time_uniform", "method":"multistep"}
+            
+            elif self.sample_fn == 'dpm_solver++':
+                dpm_solver = singlemodal_DPM_Solver(model=self.model, \
+                    alphas_cumprod=th.tensor(self.diffusion.alphas_cumprod, dtype=th.float16), \
+                        predict_x0=True,model_kwargs=model_kwargs,)
+                
+                sample_fn = dpm_solver.sample
+                sample_dict = {"noise":noise, "steps":50, "order":2, "skip_type":"time_uniform", "method":"multistep"}
+
             else:
                 sample_fn = (
             self.diffusion.p_sample_loop if not self.sample_fn == 'ddim' else self.diffusion.ddim_sample_loop
@@ -597,12 +606,26 @@ class TrainLoop:
             sample_dict = {'shape':shape,  'model_kwargs':model_kwargs}
             if self.sample_fn == 'dpm_solver':
                
-                sample_fn = dpm_solver_sample
-                sample_dict.update({'model_fn': self.model})
+                dpm_solver = singlemodal_DPM_Solver(model= self.model, \
+                    alphas_cumprod=th.tensor(self.diffusion.alphas_cumprod, dtype=th.float16), \
+                        predict_x0=False, model_kwargs=model_kwargs)
+                noise = th.randn([*shape]).to(dist_util.dev())
+                
+                sample_fn = dpm_solver.sample
+                sample_dict = {"noise":noise, "steps":50, "order":2, "skip_type":"time_uniform", "method":"multistep"}
+            
+            elif self.sample_fn == 'dpm_solver++':
+                dpm_solver = singlemodal_DPM_Solver(model=self.model, \
+                    alphas_cumprod=th.tensor(self.diffusion.alphas_cumprod, dtype=th.float16), \
+                        predict_x0=True,model_kwargs=model_kwargs,)
+                
+                sample_fn = dpm_solver.sample
+                sample_dict = {"noise":noise, "steps":50, "order":2, "skip_type":"time_uniform", "method":"multistep"}
+
             else:
                 sample_fn = (
-            self.diffusion.p_sample_loop if not self.sample_fn == 'ddim' else self.diffusion.ddim_sample_loop
-        )
+                    self.diffusion.p_sample_loop if not self.sample_fn == 'ddim' else self.diffusion.ddim_sample_loop
+                )
                 sample_dict.update({'model':self.model, 'clip_denoised': True})
   
             sample = sample_fn(

@@ -592,7 +592,7 @@ class GaussianDiffusion:
         cond_fn=None,
         model_kwargs=None,
         device=None,
-        progress=False,
+        progress=True,
         class_scale=0.
     ):
         """

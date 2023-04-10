@@ -23,8 +23,8 @@ MULTIMODAL_MODEL_PATH="/data10/rld/outputs/MM-Diffusion/models/AIST++.pt"
 SR_MODEL_PATH="/data10/rld/ouotputs/MM-Diffusion/models/AIST++_SR.pt"
 OUT_DIR="/data10/rld/outputs/MM-Diffusion/audio2video/"
 REF_PATH="/data10/rld/data/AIST++_crop/train"
+NUM_GPUS=1
 
-
-python py_scripts/audio2video_sample_sr.py  \
+mpiexec -n $NUM_GPUS python py_scripts/audio2video_sample_sr.py  \
 $MODEL_FLAGS $DIFFUSION_FLAGS $SRMODEL_FLAGS $SR_DIFFUSION_FLAGS\
 --output_dir ${OUT_DIR} --multimodal_model_path ${MULTIMODAL_MODEL_PATH} --ref_path ${REF_PATH} --sr_model_path ${SR_MODEL_PATH} 

@@ -13,7 +13,7 @@ DIFFUSION_FLAGS="--diffusion_steps 1000 --noise_schedule linear
 --batch_size 2   --is_strict True --sample_fn ddpm --classifier_scale 3.0"
 
 MODEL_PATH="/data10/rld/outputs/MM-Diffusion/models/AIST++.pt"
-OUT_DIR="/data10/rld/outputs/MM-Diffusion/video2audio/debug"
+OUT_DIR="/data10/rld/outputs/MM-Diffusion/video2audio/video2audio"
 REF_PATH="/data10/rld/data/AIST++_crop/train"
 NUM_GPUS=1
 
