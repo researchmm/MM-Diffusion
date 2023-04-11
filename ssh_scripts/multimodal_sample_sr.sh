@@ -1,3 +1,5 @@
+
+
 MODEL_FLAGS="--cross_attention_resolutions 2,4,8  --cross_attention_windows 1,4,8 
 --cross_attention_shift True  --video_attention_resolutions 2,4,8
 --audio_attention_resolutions -1
