@@ -106,7 +106,7 @@ bash ssh_scripts/image_sr_train.sh
 # zero-shot conditional generation: audio-to-video
 bash ssh_scripts/audio2video_sample_sr.sh
 
-# zero-shot conditional generation: audio-to-video
+# zero-shot conditional generation: video-to-audio
 bash ssh_scripts/video2audio_sample.sh
 ```
 ## Related projects
