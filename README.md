@@ -51,7 +51,7 @@ conda create -n mmdiffusion python=3.8
 conda activate mmdiffusion
 conda install pytorch torchvision torchaudio pytorch-cuda=11.6 -c pytorch-nightly -c nvidia
 conda install mpi4py
-pip install -r requirements.txt
+pip install -r requirement.txt
 ```
 ## Models
 Pre-trained models can be downloaded from [google drive](https://drive.google.com/drive/folders/1Mno4A3BUXELAdX4m650CJ1VfuMVlkz5p?usp=share_link), and [baidu cloud](https://pan.baidu.com/s/1vJIZCHBVlmcq9np1ytstbQ?pwd=vqon).
