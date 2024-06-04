@@ -167,7 +167,7 @@ def eval_multimodal(real_path, fake_path, video_size=[16,3,64,64], eval_num=2048
     #metric["clip_fvd"] = clip_fvd.item()
     #metric["clip_kvd"] = clip_kvd.item()
 
-    metric["fad"] = clip_fad.item() * 1000
+    metric["fad"] = clip_fad.item() * 10000
     #metric["clip_kad"] = clip_kad.item()
     #metric["clip_av_score"] =clip_av_score.item()
 
