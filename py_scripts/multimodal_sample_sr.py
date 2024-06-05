@@ -260,12 +260,12 @@ def main():
         # calculate metric
         if os.path.exists(args.ref_path):
             for fake_path in [multimodal_save_path, sr_save_path]:
-                if fake_path == multimodal_save_path: 
-                    video_size = args.video_size
-                elif fake_path == sr_save_path: 
-                    video_size = [args.video_size[0], args.video_size[1], args.large_size, args.large_size]
+                # if fake_path == multimodal_save_path: 
+                #     video_size = args.video_size
+                # elif fake_path == sr_save_path: 
+                #     video_size = [args.video_size[0], args.video_size[1], args.large_size, args.large_size]
                    
-                metric=eval_multimodal(args.ref_path, multimodal_save_path, video_size, args.all_save_num)
+                metric=eval_multimodal(args.ref_path, multimodal_save_path, eval_num=args.all_save_num)
                 if dist.get_rank() == 0:
                     logger.log(f"evaluate between {fake_path} and {args.ref_path}")
                     logger.log(metric)
